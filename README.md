@@ -91,7 +91,7 @@ The notebooks require the following Python packages:
 pip install torch torchvision librosa hear21passt numpy matplotlib
 
 # Clone the repository
-git clone github.com/RonnMath03/Unsupervised-Domain-Adaptation-Learning
+git clone https://github.com/RonnMath03/Unsupervised-Domain-Adaptation-Learning
 cd Unsupervised-Domain-Adaptation-Learning
 
 # Create datasets directory structure
