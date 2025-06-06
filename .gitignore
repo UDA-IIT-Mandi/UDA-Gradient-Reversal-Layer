@@ -1,0 +1,58 @@
+# =====================
+# General Python ignores
+# =====================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.bak
+*.log
+
+# =====================
+# Jupyter Notebook Checkpoints
+# =====================
+.ipynb_checkpoints/
+
+# =====================
+# Environment and secrets
+# =====================
+.env
+.env.*
+
+# =====================
+# VS Code / IDE metadata
+# =====================
+.vscode/
+.idea/
+
+# =====================
+# Project-specific ignores
+# =====================
+
+# Ignore all datasets
+datasets/
+!datasets/README.md
+!datasets/dcase/README.md
+!datasets/dcase/README.html
+
+# Ignore common data files
+*.wav
+*.zip
+*.csv
+*.tsv
+*.h5
+*.tar
+*.gz
+*.jsonl
+
+# Ignore archive/meta files
+*.meta
+*.doc
+*.doc.zip
+
+# =====================
+# OS-generated files
+# =====================
+.DS_Store
+Thumbs.db
