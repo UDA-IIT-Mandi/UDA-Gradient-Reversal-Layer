@@ -10,26 +10,33 @@ This work serves as foundational research for our summer internship project at *
 
 ```
 ├── notebooks/
-│   ├── grl_dcase.ipynb              # GRL implementation on DCASE dataset
-│   ├── grl_mnist-svhm.ipynb         # GRL implementation on MNIST-SVHN datasets
-│   └── passt_pretrained_practise.ipynb # PaSST feature extractor practice
+│   ├── passt_pretrained_practise.ipynb # PaSST feature extractor practice
+│   ├── passt_decase.ipynb             # PaSST implementation for DCASE dataset
+│   ├── archive/                       # Archived notebook versions
+│   │   └── grl_mnist-svhm.ipynb       # Original GRL MNIST-SVHN implementation
+│   └── grl/                          # GRL implementation notebooks
+│       ├── baseline_no_grl.ipynb      # Baseline without GRL
+│       ├── baseline_no_grl (Copy).ipynb
+│       └── dann_with_grl.ipynb        # DANN with GRL implementation
 ├── datasets/
-│   ├── dcase/                       # DCASE TAU audio files (to be downloaded)
-│   │   └── audio/                   # Contains acoustic scene audio files
-│   └── audio_files/                 # Sample audio files for PaSST practice
+│   ├── dcase/                         # DCASE TAU audio files (to be downloaded)
+│   │   └── audio/                     # Contains acoustic scene audio files
+│   └── audio_files/                   # Sample audio files for PaSST practice
 └── .gitignore
 ```
 
 ## Implemented Techniques
 
 ### 1. Gradient Reversal Layer (GRL/DANN)
-- Implementation on MNIST ↔ SVHN domain adaptation in [`grl_mnist-svhm.ipynb`](notebooks/grl_mnist-svhm.ipynb)
-- Application to DCASE acoustic scene classification in [`grl_dcase.ipynb`](notebooks/grl_dcase.ipynb)
+- Baseline implementation without GRL in [`baseline_no_grl.ipynb`](notebooks/grl/baseline_no_grl.ipynb)
+- Complete DANN with GRL implementation in [`dann_with_grl.ipynb`](notebooks/grl/dann_with_grl.ipynb)
+- Archived MNIST ↔ SVHN domain adaptation in [`grl_mnist-svhm.ipynb`](notebooks/archive/grl_mnist-svhm.ipynb)
 - Neural network architectures with feature extractors, classifiers, and discriminators
 - Based on the paper: [Domain-Adversarial Training of Neural Networks](https://arxiv.org/abs/1409.7495)
 
 ### 2. PaSST Feature Extractor
 - Practice implementation of pre-trained PaSST model in [`passt_pretrained_practise.ipynb`](notebooks/passt_pretrained_practise.ipynb)
+- PaSST implementation for DCASE dataset in [`passt_decase.ipynb`](notebooks/passt_decase.ipynb)
 - Audio feature extraction for acoustic scene classification
 - Integration with domain adaptation frameworks
 
@@ -63,16 +70,21 @@ Due to file size limitations, the following datasets need to be downloaded separ
 2. **Audio Files for PaSST Practice**:
    - Any .wav audio files can be used
    - Place sample files in `datasets/audio_files/`
-   - The notebook includes examples with files like:
+   - Example files used in notebooks:
      - `33711__acclivity__excessiveexposure.wav`
      - `222993__zyrytsounds__people-talking.wav`
      - `36105__erh__roswell.wav`
 
 ## Key Files
 
-- [`grl_mnist-svhm.ipynb`](notebooks/grl_mnist-svhm.ipynb): Complete GRL implementation for visual domain adaptation
-- [`grl_dcase.ipynb`](notebooks/grl_dcase.ipynb): GRL adapted for acoustic scene classification
+### Current Active Notebooks
 - [`passt_pretrained_practise.ipynb`](notebooks/passt_pretrained_practise.ipynb): PaSST feature extractor exploration
+- [`passt_decase.ipynb`](notebooks/passt_decase.ipynb): PaSST implementation for DCASE dataset
+- [`baseline_no_grl.ipynb`](notebooks/grl/baseline_no_grl.ipynb): Baseline without domain adaptation
+- [`dann_with_grl.ipynb`](notebooks/grl/dann_with_grl.ipynb): Complete DANN with GRL implementation
+
+### Archived Notebooks
+- [`grl_mnist-svhm.ipynb`](notebooks/archive/grl_mnist-svhm.ipynb): Original GRL implementation for visual domain adaptation
 
 ## Requirements
 
@@ -83,12 +95,13 @@ The notebooks require the following Python packages:
 - hear21passt
 - numpy
 - matplotlib
+- scikit-learn
 
 ## Installation
 
 ```bash
 # Install required packages
-pip install torch torchvision librosa hear21passt numpy matplotlib
+pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
 
 # Clone the repository
 git clone https://github.com/RonnMath03/Unsupervised-Domain-Adaptation-Learning
@@ -101,29 +114,45 @@ mkdir -p datasets/audio_files
 
 ## Usage
 
-1. **MNIST-SVHN Domain Adaptation**:
+### GRL/DANN Implementations
+
+1. **Baseline without GRL**:
    ```bash
-   jupyter notebook notebooks/grl_mnist-svhm.ipynb
+   jupyter notebook notebooks/grl/baseline_no_grl.ipynb
    ```
 
-2. **DCASE Audio Domain Adaptation**:
+2. **DANN with GRL**:
    ```bash
-   # First download DCASE dataset to datasets/dcase/audio/
-   jupyter notebook notebooks/grl_dcase.ipynb
+   jupyter notebook notebooks/grl/dann_with_grl.ipynb
    ```
 
-3. **PaSST Feature Extraction**:
+3. **Archived MNIST-SVHN Implementation**:
+   ```bash
+   jupyter notebook notebooks/archive/grl_mnist-svhm.ipynb
+   ```
+
+### PaSST Implementations
+
+1. **PaSST Feature Extraction Practice**:
    ```bash
    # Add any .wav files to datasets/audio_files/
    jupyter notebook notebooks/passt_pretrained_practise.ipynb
+   ```
+
+2. **PaSST for DCASE Dataset**:
+   ```bash
+   # First download DCASE dataset to datasets/dcase/audio/
+   jupyter notebook notebooks/passt_decase.ipynb
    ```
 
 ## Features
 
 - **Automatic Data Handling**: MNIST and SVHN datasets are downloaded automatically
 - **Flexible Audio Input**: PaSST implementation works with any .wav audio files
+- **Comparative Analysis**: Both baseline and GRL implementations for comparison
 - **Batch Processing**: Support for both single audio file and batch audio processing
 - **GPU Support**: CUDA-enabled implementations for faster processing
+- **Modular Structure**: Organized notebooks for different techniques and datasets
 
 ## References
 
@@ -132,9 +161,9 @@ mkdir -p datasets/audio_files
 
 ### Source Repositories
 - **DANN PyTorch Implementation**: [Yangyangii/DANN-pytorch](https://github.com/Yangyangii/DANN-pytorch)
-  - Used as base for GRL/DANN implementations in `grl_mnist-svhm.ipynb` and `grl_dcase.ipynb`
+  - Used as base for GRL/DANN implementations in the `grl/` folder
 - **PaSST Implementation**: [kkoutini/PaSST](https://github.com/kkoutini/PaSST)
-  - Used for audio feature extraction in `passt_pretrained_practise.ipynb`
+  - Used for audio feature extraction in PaSST notebooks
 
 ## Acknowledgments
 
@@ -161,3 +190,5 @@ This project is for educational and research purposes. Please refer to the origi
 - For PaSST practice, any .wav audio files can be used - no specific dataset required
 - All notebooks include necessary package installation cells
 - Code modifications were made to adapt the original implementations for our specific learning objectives
+- Notebooks are organized by technique: `grl/` for domain adaptation, main folder for PaSST implementations
+- Archive folder contains earlier versions of implementations for reference
