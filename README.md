@@ -16,7 +16,6 @@ This work serves as foundational research for our summer internship project at *
 │   │   └── grl_mnist-svhm.ipynb       # Original GRL MNIST-SVHN implementation
 │   └── grl/                          # GRL implementation notebooks
 │       ├── baseline_no_grl.ipynb      # Baseline without GRL
-│       ├── baseline_no_grl (Copy).ipynb
 │       └── dann_with_grl.ipynb        # DANN with GRL implementation
 ├── datasets/
 │   ├── dcase/                         # DCASE TAU audio files (to be downloaded)
