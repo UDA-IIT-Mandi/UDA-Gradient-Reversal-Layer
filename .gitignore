@@ -35,7 +35,8 @@ datasets/dcase/test/*.wav
 datasets/dcase/train/*.wav
 
 # Ignore the entire CV dataset
-datasets/cv_data/
+datasets/cv_data/MNIST
+datasets/cv_data/*.mat
 
 # Do NOT ignore audio_files
 !datasets/audio_files/
