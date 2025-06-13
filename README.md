@@ -31,6 +31,10 @@ This work serves as foundational research for our summer internship project at *
 │       ├── meta.csv                   # Dataset metadata
 │       ├── README.md                  # DCASE dataset documentation
 │       ├── README.html                # DCASE dataset documentation (HTML)
+│       ├── evaluation_setup/          # Cross-validation setup for data splits
+│       │   ├── fold1_train.csv        # Training file list (used for train/source & train/target splits)
+│       │   ├── fold1_test.csv         # Testing file list (used for test split)
+│       │   └── fold1_evaluate.csv     # Evaluation file list with ground truth labels
 │       ├── test/                      # Test data organization
 │       └── train/                     # Training data organization
 │           ├── source/                # Source domain data (Device A)
@@ -112,6 +116,34 @@ Due to file size limitations, the DCASE dataset needs to be downloaded separatel
 2. **Audio Files for PaSST Practice**:
    - Sample files already included in [`datasets/audio_files/`](datasets/audio_files/)
    - Any additional .wav files can be added for experimentation
+
+## DCASE Dataset Organization
+
+The DCASE TAU Urban Acoustic Scenes 2020 Mobile dataset uses a specific cross-validation setup provided in the [`datasets/dcase/evaluation_setup/`](datasets/dcase/evaluation_setup/) folder:
+
+### Data Split Files
+- **[`fold1_train.csv`](datasets/dcase/evaluation_setup/fold1_train.csv)**: Contains the training file list with scene labels
+  - Used to split audio files into source domain (Device A) and target domain (Devices B,C,S1-S3)
+  - Format: `[audio file][tab][scene label]`
+  - Device A files → [`datasets/dcase/train/source/`](datasets/dcase/train/source/)
+  - Device B,C,S1-S3 files → [`datasets/dcase/train/target/`](datasets/dcase/train/target/)
+
+- **[`fold1_test.csv`](datasets/dcase/evaluation_setup/fold1_test.csv)**: Contains the testing file list
+  - Used for evaluation across all devices (A,B,C,S1-S6)
+  - Format: `[audio file]`
+  - All test files → [`datasets/dcase/test/`](datasets/dcase/test/)
+
+- **[`fold1_evaluate.csv`](datasets/dcase/evaluation_setup/fold1_evaluate.csv)**: Same as test list but with ground truth labels
+  - Used for final evaluation and performance metrics
+  - Format: `[audio file][tab][scene label]`
+
+### Domain Adaptation Setup
+- **Source Domain**: Device A recordings (10,215 files)
+- **Target Domain**: Devices B,C,S1-S3 recordings (3,747 files) 
+- **Test Set**: All devices A,B,C,S1-S6 recordings (2,968 files)
+- **Scene Classes**: 10 acoustic scenes (airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram)
+
+The data split ensures that segments recorded at the same location are kept in the same subset to prevent data leakage between training and testing.
 
 ## Key Features
 
