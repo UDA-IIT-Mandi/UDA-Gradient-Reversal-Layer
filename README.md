@@ -13,9 +13,14 @@ This work serves as foundational research for our summer internship project at *
 ```
 ├── notebooks/
 │   ├── grl_cv/                        # GRL implementations for computer vision
+│   │   ├── baseline_no_grl.ipynb     # Baseline without GRL: SVHN→MNIST
+│   │   └── dann_with_grl.ipynb       # DANN with GRL: SVHN→MNIST
 │   ├── grl_dcase/                     # GRL implementations for DCASE dataset
+│   │   ├── dann_dcase.ipynb          # DANN with GRL for DCASE TAU 2020
+│   │   └── baseline_dcase.ipynb      # Baseline without GRL for DCASE TAU 2020
 │   └── passt/                         # PaSST feature extractor implementations
-│       └── passt_pretrained_practise.ipynb # PaSST practice notebook
+│       ├── passt_pretrained_practise.ipynb # PaSST practice notebook
+│       └── passt_dcase.ipynb         # PaSST with DCASE dataset
 ├── datasets/
 │   ├── audio_files/                   # Sample audio files for PaSST practice
 │   │   ├── 222993__zyrytsounds__people-talking.wav
@@ -40,15 +45,42 @@ This work serves as foundational research for our summer internship project at *
 ## Implemented Techniques
 
 ### 1. Gradient Reversal Layer (GRL/DANN)
-- Computer vision implementations in [`grl_cv/`](notebooks/grl_cv/) folder
-- DCASE audio implementations in [`grl_dcase/`](notebooks/grl_dcase/) folder
-- Neural network architectures with feature extractors, classifiers, and discriminators
-- Based on the paper: [Domain-Adversarial Training of Neural Networks](https://arxiv.org/abs/1409.7495)
+
+#### Computer Vision Domain Adaptation
+- **[`baseline_no_grl.ipynb`](notebooks/grl_cv/baseline_no_grl.ipynb)**: Baseline implementation without GRL for SVHN→MNIST domain adaptation
+  - Source domain: SVHN (Street View House Numbers)
+  - Target domain: MNIST (Handwritten digits)
+  - Feature extractor + classifier architecture
+  - Performance comparison baseline for GRL methods
+
+- **[`dann_with_grl.ipynb`](notebooks/grl_cv/dann_with_grl.ipynb)**: Full DANN implementation with GRL for SVHN→MNIST domain adaptation
+  - Domain-adversarial training with gradient reversal layer
+  - CNN feature extractor + classifier + discriminator architecture
+  - Comparison with baseline to demonstrate GRL effectiveness
+
+#### Audio Domain Adaptation (DCASE TAU 2020)
+- **[`dann_dcase.ipynb`](notebooks/grl_dcase/dann_dcase.ipynb)**: Full DANN implementation with GRL for acoustic scene classification
+  - Domain-adversarial training with gradient reversal layer
+  - PaSST feature extractor (pre-trained on AudioSet)
+  - Multi-device domain adaptation (Device A → Devices B,C,S1-S6)
+  - 10 acoustic scene classes
+  - Confusion matrix analysis and device-specific performance evaluation
+
+- **[`baseline_dcase.ipynb`](notebooks/grl_dcase/baseline_dcase.ipynb)**: Baseline implementation without GRL for DCASE dataset
+  - Source-only training for comparison with DANN
+  - Same PaSST backbone as DANN implementation
+  - Performance baseline for measuring domain adaptation improvements
 
 ### 2. PaSST Feature Extractor
-- Practice implementation of pre-trained PaSST model in [`passt_pretrained_practise.ipynb`](notebooks/passt/passt_pretrained_practise.ipynb)
-- Audio feature extraction for acoustic scene classification
-- Integration with domain adaptation frameworks
+- **[`passt_pretrained_practise.ipynb`](notebooks/passt/passt_pretrained_practise.ipynb)**: Practice implementation of pre-trained PaSST model
+  - Audio feature extraction for acoustic scene classification
+  - Integration with domain adaptation frameworks
+  - Sample audio file processing examples
+
+- **[`passt_dcase.ipynb`](notebooks/passt/passt_dcase.ipynb)**: PaSST feature extraction specifically for DCASE dataset
+  - DCASE TAU 2020 dataset preprocessing and feature extraction
+  - PaSST model integration with acoustic scene classification
+  - Preparation for domain adaptation experiments
 
 ## Datasets Used
 
@@ -116,19 +148,31 @@ pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
 
 ## Usage
 
+### Computer Vision Domain Adaptation
+```bash
+# Baseline without GRL (SVHN→MNIST)
+jupyter notebook notebooks/grl_cv/baseline_no_grl.ipynb
+
+# DANN with GRL (SVHN→MNIST)
+jupyter notebook notebooks/grl_cv/dann_with_grl.ipynb
+```
+
+### Audio Domain Adaptation (DCASE)
+```bash
+# DANN with GRL implementation
+jupyter notebook notebooks/grl_dcase/dann_dcase.ipynb
+
+# Baseline without GRL
+jupyter notebook notebooks/grl_dcase/baseline_dcase.ipynb
+```
+
 ### PaSST Feature Extraction
 ```bash
 # Practice with sample audio files
 jupyter notebook notebooks/passt/passt_pretrained_practise.ipynb
-```
 
-### GRL/DANN Implementations
-```bash
-# Computer vision domain adaptation
-jupyter notebook notebooks/grl_cv/[specific_notebook].ipynb
-
-# Audio domain adaptation
-jupyter notebook notebooks/grl_dcase/[specific_notebook].ipynb
+# PaSST with DCASE dataset
+jupyter notebook notebooks/passt/passt_dcase.ipynb
 ```
 
 ## References
