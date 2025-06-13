@@ -30,26 +30,15 @@ __pycache__/
 # Project-specific ignores
 # =====================
 
-# Ignore all datasets
-datasets/
-!datasets/README.md
-!datasets/dcase/README.md
-!datasets/dcase/README.html
+# Ignore large DCASE audio files
+datasets/dcase/test/*.wav
+datasets/dcase/train/*.wav
 
-# Ignore common data files
-*.wav
-*.zip
-*.csv
-*.tsv
-*.h5
-*.tar
-*.gz
-*.jsonl
+# Ignore the entire CV dataset
+datasets/cv_data/
 
-# Ignore archive/meta files
-*.meta
-*.doc
-*.doc.zip
+# Do NOT ignore audio_files
+!datasets/audio_files/
 
 # =====================
 # OS-generated files
