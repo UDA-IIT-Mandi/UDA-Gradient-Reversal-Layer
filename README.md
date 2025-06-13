@@ -4,38 +4,49 @@ This repository contains implementations of unsupervised domain adaptation techn
 
 ## Project Overview
 
-This work serves as foundational research for our summer internship project at **IIT Mandi**: *Domain Adaptation for Acoustic Scene Classification for different devices using Gradual Vanishing Bridge*.
+This work serves as foundational research for our summer internship project at **IIT Mandi**: *Domain Adaptation for Acoustic Scene Classification for different devices using Cyclic Self Training*.
+
+**Status**: Practice work completed. Repository is finalized with no further updates planned.
 
 ## Repository Structure
 
 ```
 ├── notebooks/
-│   ├── passt_pretrained_practise.ipynb # PaSST feature extractor practice
-│   ├── passt_decase.ipynb             # PaSST implementation for DCASE dataset
-│   ├── archive/                       # Archived notebook versions
-│   │   └── grl_mnist-svhm.ipynb       # Original GRL MNIST-SVHN implementation
-│   └── grl/                          # GRL implementation notebooks
-│       ├── baseline_no_grl.ipynb      # Baseline without GRL
-│       └── dann_with_grl.ipynb        # DANN with GRL implementation
+│   ├── grl_cv/                        # GRL implementations for computer vision
+│   ├── grl_dcase/                     # GRL implementations for DCASE dataset
+│   └── passt/                         # PaSST feature extractor implementations
+│       └── passt_pretrained_practise.ipynb # PaSST practice notebook
 ├── datasets/
-│   ├── dcase/                         # DCASE TAU audio files (to be downloaded)
-│   │   └── audio/                     # Contains acoustic scene audio files
-│   └── audio_files/                   # Sample audio files for PaSST practice
-└── .gitignore
+│   ├── audio_files/                   # Sample audio files for PaSST practice
+│   │   ├── 222993__zyrytsounds__people-talking.wav
+│   │   ├── 33711__acclivity__excessiveexposure.wav
+│   │   └── 36105__erh__roswell.wav
+│   ├── cv_data/                       # Computer vision datasets (auto-downloaded)
+│   └── dcase/                         # DCASE TAU dataset
+│       ├── meta.csv                   # Dataset metadata
+│       ├── README.md                  # DCASE dataset documentation
+│       ├── README.html                # DCASE dataset documentation (HTML)
+│       ├── test/                      # Test data organization
+│       └── train/                     # Training data organization
+│           ├── source/                # Source domain data (Device A)
+│           └── target/                # Target domain data (Devices B,C,S1-S3)
+├── .ipynb_checkpoints/                # Jupyter checkpoint files
+├── .gitattributes
+├── .gitignore
+├── README.md                          # This file
+└── structure.txt                      # Repository structure documentation
 ```
 
 ## Implemented Techniques
 
 ### 1. Gradient Reversal Layer (GRL/DANN)
-- Baseline implementation without GRL in [`baseline_no_grl.ipynb`](notebooks/grl/baseline_no_grl.ipynb)
-- Complete DANN with GRL implementation in [`dann_with_grl.ipynb`](notebooks/grl/dann_with_grl.ipynb)
-- Archived MNIST ↔ SVHN domain adaptation in [`grl_mnist-svhm.ipynb`](notebooks/archive/grl_mnist-svhm.ipynb)
+- Computer vision implementations in [`grl_cv/`](notebooks/grl_cv/) folder
+- DCASE audio implementations in [`grl_dcase/`](notebooks/grl_dcase/) folder
 - Neural network architectures with feature extractors, classifiers, and discriminators
 - Based on the paper: [Domain-Adversarial Training of Neural Networks](https://arxiv.org/abs/1409.7495)
 
 ### 2. PaSST Feature Extractor
-- Practice implementation of pre-trained PaSST model in [`passt_pretrained_practise.ipynb`](notebooks/passt_pretrained_practise.ipynb)
-- PaSST implementation for DCASE dataset in [`passt_decase.ipynb`](notebooks/passt_decase.ipynb)
+- Practice implementation of pre-trained PaSST model in [`passt_pretrained_practise.ipynb`](notebooks/passt/passt_pretrained_practise.ipynb)
 - Audio feature extraction for acoustic scene classification
 - Integration with domain adaptation frameworks
 
@@ -46,48 +57,42 @@ This work serves as foundational research for our summer internship project at *
 - **SVHN**: Street View House Numbers (downloaded automatically)
 
 ### Audio/Acoustic
-- **DCASE TAU**: Urban acoustic scenes from multiple cities
-  - Park scenes (Helsinki, Lisbon, Milan, Paris, Prague, Stockholm, Vienna)
-  - Street pedestrian scenes 
-  - Metro station scenes
-  - Public square scenes
-  - Bus scenes
-- **Custom Audio Files**: Any .wav files can be used for PaSST feature extraction practice
+- **DCASE TAU 2020 Mobile**: Urban acoustic scenes from multiple cities and devices
+  - 10 acoustic scene classes: airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram
+  - Multiple devices: A (source), B, C, S1-S6 (targets)
+  - 64 hours of audio data total
+  - Detailed statistics in [`datasets/dcase/README.md`](datasets/dcase/README.md)
+- **Custom Audio Files**: Sample .wav files for PaSST feature extraction practice
 
 ## Dataset Setup
 
 ### Automatic Downloads
-The MNIST and SVHN datasets will be automatically downloaded when running the respective notebooks for the first time.
+The MNIST and SVHN datasets are automatically downloaded to [`datasets/cv_data/`](datasets/cv_data/) when running the respective notebooks.
 
 ### Manual Downloads Required
-Due to file size limitations, the following datasets need to be downloaded separately:
+Due to file size limitations, the DCASE dataset needs to be downloaded separately:
 
-1. **DCASE TAU Dataset**: 
+1. **DCASE TAU 2020 Mobile Dataset**: 
    - Download from [DCASE Challenge website](http://dcase.community/challenge2020/task-acoustic-scene-classification)
-   - Place audio files in `datasets/dcase/audio/`
+   - Audio files should be placed in `datasets/dcase/audio/` (not included in repository)
+   - Pre-organized train/test split folders available in [`datasets/dcase/train/`](datasets/dcase/train/) and [`datasets/dcase/test/`](datasets/dcase/test/)
 
 2. **Audio Files for PaSST Practice**:
-   - Any .wav audio files can be used
-   - Place sample files in `datasets/audio_files/`
-   - Example files used in notebooks:
-     - `33711__acclivity__excessiveexposure.wav`
-     - `222993__zyrytsounds__people-talking.wav`
-     - `36105__erh__roswell.wav`
+   - Sample files already included in [`datasets/audio_files/`](datasets/audio_files/)
+   - Any additional .wav files can be added for experimentation
 
-## Key Files
+## Key Features
 
-### Current Active Notebooks
-- [`passt_pretrained_practise.ipynb`](notebooks/passt_pretrained_practise.ipynb): PaSST feature extractor exploration
-- [`passt_decase.ipynb`](notebooks/passt_decase.ipynb): PaSST implementation for DCASE dataset
-- [`baseline_no_grl.ipynb`](notebooks/grl/baseline_no_grl.ipynb): Baseline without domain adaptation
-- [`dann_with_grl.ipynb`](notebooks/grl/dann_with_grl.ipynb): Complete DANN with GRL implementation
+- **Domain Adaptation Focus**: Implementations specifically designed for cross-device acoustic scene classification
+- **Complete Workflow**: From data loading to model training and evaluation
+- **Flexible Audio Input**: PaSST implementation works with any .wav audio files
+- **GPU Support**: CUDA-enabled implementations for faster processing
+- **Organized Structure**: Clear separation between different techniques and datasets
+- **Documentation**: Comprehensive dataset documentation and usage examples
 
-### Archived Notebooks
-- [`grl_mnist-svhm.ipynb`](notebooks/archive/grl_mnist-svhm.ipynb): Original GRL implementation for visual domain adaptation
+## Technical Requirements
 
-## Requirements
-
-The notebooks require the following Python packages:
+- Python 3.12+
 - PyTorch
 - torchvision
 - librosa
@@ -99,95 +104,84 @@ The notebooks require the following Python packages:
 ## Installation
 
 ```bash
-# Install required packages
-pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
-
 # Clone the repository
 git clone https://github.com/RonnMath03/Unsupervised-Domain-Adaptation-Learning
 cd Unsupervised-Domain-Adaptation-Learning
 
-# Create datasets directory structure
-mkdir -p datasets/dcase/audio
-mkdir -p datasets/audio_files
+# Install required packages
+pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
+
+# Dataset directories already exist, download DCASE data if needed
 ```
 
 ## Usage
 
+### PaSST Feature Extraction
+```bash
+# Practice with sample audio files
+jupyter notebook notebooks/passt/passt_pretrained_practise.ipynb
+```
+
 ### GRL/DANN Implementations
+```bash
+# Computer vision domain adaptation
+jupyter notebook notebooks/grl_cv/[specific_notebook].ipynb
 
-1. **Baseline without GRL**:
-   ```bash
-   jupyter notebook notebooks/grl/baseline_no_grl.ipynb
-   ```
-
-2. **DANN with GRL**:
-   ```bash
-   jupyter notebook notebooks/grl/dann_with_grl.ipynb
-   ```
-
-3. **Archived MNIST-SVHN Implementation**:
-   ```bash
-   jupyter notebook notebooks/archive/grl_mnist-svhm.ipynb
-   ```
-
-### PaSST Implementations
-
-1. **PaSST Feature Extraction Practice**:
-   ```bash
-   # Add any .wav files to datasets/audio_files/
-   jupyter notebook notebooks/passt_pretrained_practise.ipynb
-   ```
-
-2. **PaSST for DCASE Dataset**:
-   ```bash
-   # First download DCASE dataset to datasets/dcase/audio/
-   jupyter notebook notebooks/passt_decase.ipynb
-   ```
-
-## Features
-
-- **Automatic Data Handling**: MNIST and SVHN datasets are downloaded automatically
-- **Flexible Audio Input**: PaSST implementation works with any .wav audio files
-- **Comparative Analysis**: Both baseline and GRL implementations for comparison
-- **Batch Processing**: Support for both single audio file and batch audio processing
-- **GPU Support**: CUDA-enabled implementations for faster processing
-- **Modular Structure**: Organized notebooks for different techniques and datasets
+# Audio domain adaptation
+jupyter notebook notebooks/grl_dcase/[specific_notebook].ipynb
+```
 
 ## References
 
-### Research Paper
+### Research Papers
 - Ganin, Y., & Lempitsky, V. (2015). [Unsupervised Domain Adaptation by Backpropagation](https://arxiv.org/abs/1409.7495). *arXiv preprint arXiv:1409.7495*.
+- Koutini, K., et al. (2021). PaSST: Efficient Training of Audio Transformers with Patchout.
 
 ### Source Repositories
 - **DANN PyTorch Implementation**: [Yangyangii/DANN-pytorch](https://github.com/Yangyangii/DANN-pytorch)
-  - Used as base for GRL/DANN implementations in the `grl/` folder
+  - Used as base for GRL/DANN implementations
 - **PaSST Implementation**: [kkoutini/PaSST](https://github.com/kkoutini/PaSST)
-  - Used for audio feature extraction in PaSST notebooks
+  - Used for audio feature extraction
+
+### Datasets
+- **DCASE TAU 2020 Mobile**: [Detection and Classification of Acoustic Scenes and Events](http://dcase.community/challenge2020/task-acoustic-scene-classification)
+- **Audio Samples**: [FreeSound Community](https://freesound.org/)
 
 ## Acknowledgments
 
-- **Code Attribution**: The implementations are adapted and modified from the above-mentioned GitHub repositories
-- **Research Foundation**: Based on the seminal work by Ganin & Lempitsky on Domain-Adversarial Training
-- **Institution**: This work is conducted as part of our summer internship preparation at IIT Mandi
-- **Datasets**: 
-  - DCASE dataset provided by the Detection and Classification of Acoustic Scenes and Events community
-  - Audio samples from FreeSound community for PaSST practice
+- **Code Attribution**: Implementations adapted and modified from open-source GitHub repositories
+- **Research Foundation**: Based on Domain-Adversarial Training and PaSST architectures
+- **Institution**: Summer internship preparation work at IIT Mandi
+- **Dataset Providers**: 
+  - DCASE community for acoustic scene datasets
+  - Tampere University for TAU Urban Acoustic Scenes dataset
+  - FreeSound community for sample audio files
 
 ## Future Work
 
-This repository serves as groundwork for our main project: **Domain Adaptation for Acoustic Scene Classification for different devices using Gradual Vanishing Bridge** at IIT Mandi.
+This repository serves as groundwork for our main research project: **Domain Adaptation for Acoustic Scene Classification for different devices using Cyclic Self Training** at IIT Mandi.
+
+The techniques and implementations explored here will inform:
+- Advanced domain adaptation strategies
+- Multi-device acoustic scene classification
+- Gradual domain shift mitigation techniques
 
 ## License
 
 This project is for educational and research purposes. Please refer to the original source repositories for their respective licensing information:
 - [DANN-pytorch License](https://github.com/Yangyangii/DANN-pytorch/blob/master/LICENSE)
 - [PaSST License](https://github.com/kkoutini/PaSST/blob/main/LICENSE)
+- DCASE TAU dataset: Academic use only, commercial use prohibited
 
-## Notes
+## Final Notes
 
-- The `datasets/` folder structure exists but files need to be downloaded separately due to size constraints
-- For PaSST practice, any .wav audio files can be used - no specific dataset required
-- All notebooks include necessary package installation cells
-- Code modifications were made to adapt the original implementations for our specific learning objectives
-- Notebooks are organized by technique: `grl/` for domain adaptation, main folder for PaSST implementations
-- Archive folder contains earlier versions of implementations for reference
+- **Completion Status**: All practice implementations are complete and finalized
+- **Repository Maintenance**: No further updates planned for this practice repository
+- **Dataset Structure**: Organized for easy domain adaptation experiments
+- **Code Quality**: All notebooks include proper documentation and usage examples
+- **Learning Outcome**: Successfully explored UDA techniques for acoustic scene classification
+- **Next Steps**: Proceed to main research project implementation
+
+---
+
+**Repository Status**: **COMPLETED**
