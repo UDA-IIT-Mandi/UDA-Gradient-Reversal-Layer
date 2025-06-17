@@ -71,7 +71,7 @@ This work serves as foundational research for our summer internship project at *
   - 10 acoustic scene classes
   - Confusion matrix analysis and device-specific performance evaluation
 
-- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Baseline implementation without GRL and Domain Shift for DCASE dataset
+- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Source-Only Baseline implementation without GRL and Domain Shift for DCASE dataset
   - Source and Target (fully labelled without domain shift) training for comparison with DANN
   - Same PaSST backbone as DANN implementation
   - No Domain Shift (Device A,B,C,S1-S3 → Device A,B,C,S1-S6)
@@ -153,14 +153,45 @@ The DCASE TAU Urban Acoustic Scenes 2020 Mobile dataset uses a specific cross-va
 
 The data split ensures that segments recorded at the same location are kept in the same subset to prevent data leakage between training and testing.
 
-## Key Features
+## Results
 
-- **Domain Adaptation Focus**: Implementations specifically designed for cross-device acoustic scene classification
-- **Complete Workflow**: From data loading to model training and evaluation
-- **Flexible Audio Input**: PaSST implementation works with any .wav audio files
-- **GPU Support**: CUDA-enabled implementations for faster processing
-- **Organized Structure**: Clear separation between different techniques and datasets
-- **Documentation**: Comprehensive dataset documentation and usage examples
+The following results demonstrate the effectiveness of domain adaptation techniques across different domains and datasets:
+
+### Computer Vision Domain Adaptation (SVHN→MNIST)
+
+**Baseline without GRL** ([`baseline_no_grl.ipynb`](notebooks/grl_cv/baseline_no_grl.ipynb)):
+- Source Accuracy: 93.4%
+- Target Accuracy: 63.1%
+
+**DANN with GRL** ([`dann_with_grl.ipynb`](notebooks/grl_cv/dann_with_grl.ipynb)):
+- Source Accuracy: 93.6%
+- Target Accuracy: 72.1%
+
+The GRL implementation shows a **9% improvement** in target domain accuracy while maintaining source domain performance, demonstrating the effectiveness of domain-adversarial training.
+
+### Audio Domain Adaptation (DCASE TAU 2020)
+
+**DANN with GRL** ([`dann_dcase.ipynb`](notebooks/grl_dcase/dann_dcase.ipynb)):
+- Source Accuracy: 88.7%
+- Target Accuracy: 65.5%
+
+**Baseline without Domain Shift** ([`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)):
+- Source Accuracy: 99.0%
+- Target Accuracy: 67.0%
+
+**Source-only with Domain Shift** ([`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)):
+- Source Accuracy: 99.0%
+- Target Accuracy: 52.0%
+
+The DANN implementation shows a **14% improvement** over source-only training in the presence of domain shift and is performing on par with the model without domain shift, highlighting the critical importance of domain adaptation for cross-device acoustic scene classification.
+
+### Key Findings
+
+1. **Domain Adaptation Effectiveness**: GRL-based methods consistently improve target domain performance across both visual and audio domains
+2. **Cross-Device Challenges**: The significant performance drop from 99.0% to 52.0% accuracy when domain shift is present emphasizes the need for specialized adaptation techniques
+3. **Method Generalization**: DANN with GRL proves effective across different modalities (computer vision and audio processing)
+
+**Detailed Analysis**: For comprehensive performance metrics, confusion matrices, training curves, and device-specific results, please refer to the individual notebook implementations listed above.
 
 ## Technical Requirements
 
@@ -202,8 +233,11 @@ jupyter notebook notebooks/grl_cv/dann_with_grl.ipynb
 # DANN with GRL implementation
 jupyter notebook notebooks/grl_dcase/dann_dcase.ipynb
 
-# Baseline without GRL
-jupyter notebook notebooks/grl_dcase/baseline_dcase.ipynb
+# Baseline implementation without GRL and Domain Shift
+jupyter notebook notebooks/grl_dcase/baseline_dcase_wo_da.ipynb
+
+# Source-Only Baseline without GRL
+jupyter notebook notebooks/grl_dcase/source_only_dcase_w_da.ipynb
 ```
 
 ### PaSST Feature Extraction
