@@ -1,6 +1,6 @@
 # Unsupervised Domain Adaptation Learning
 
-This repository contains implementations of unsupervised domain adaptation techniques using Gradient Reversal Layer (GRL) and PaSST feature extractors across various datasets. The code was collected and modified from various GitHub sources as a learning exercise and precursor to our main research project.
+This repository contains implementations of unsupervised domain adaptation techniques using Gradient Reversal Layer (GRL) and PaSST feature extractors across various datasets. The code was modified from various GitHub sources as a learning exercise and precursor to our main research project. 
 
 ## Project Overview
 
