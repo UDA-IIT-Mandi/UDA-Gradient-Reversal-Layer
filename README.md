@@ -17,7 +17,8 @@ This work serves as foundational research for our summer internship project at *
 │   │   └── dann_with_grl.ipynb       # DANN with GRL: SVHN→MNIST
 │   ├── grl_dcase/                     # GRL implementations for DCASE dataset
 │   │   ├── dann_dcase.ipynb          # DANN with GRL for DCASE TAU 2020
-│   │   └── baseline_dcase.ipynb      # Baseline without GRL for DCASE TAU 2020
+│   │   ├── baseline_dcase_wo_da.ipynb # Baseline without domain shift for DCASE TAU 2020
+│   │   └── source_only_dcase_w_da.ipynb # Baseline without GRL but with domain adpatation for DCASE TAU 2020
 │   └── passt/                         # PaSST feature extractor implementations
 │       ├── passt_pretrained_practise.ipynb # PaSST practice notebook
 │       └── passt_dcase.ipynb         # PaSST with DCASE dataset
@@ -70,10 +71,15 @@ This work serves as foundational research for our summer internship project at *
   - 10 acoustic scene classes
   - Confusion matrix analysis and device-specific performance evaluation
 
-- **[`baseline_dcase.ipynb`](notebooks/grl_dcase/baseline_dcase.ipynb)**: Baseline implementation without GRL for DCASE dataset
+- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Baseline implementation without GRL and Domain Shift for DCASE dataset
+  - Source and Target (fully labelled without domain shift) training for comparison with DANN
+  - Same PaSST backbone as DANN implementation
+  - Performance baseline for comparing domain adaptation against models with no domain shift
+ 
+- **[`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)**: Baseline implementation without GRL for DCASE dataset
   - Source-only training for comparison with DANN
   - Same PaSST backbone as DANN implementation
-  - Performance baseline for measuring domain adaptation improvements
+  - Performance baseline for measuring domain adaptation improvements over models with domain shift but no GRL
 
 ### 2. PaSST Feature Extractor
 - **[`passt_pretrained_practise.ipynb`](notebooks/passt/passt_pretrained_practise.ipynb)**: Practice implementation of pre-trained PaSST model
