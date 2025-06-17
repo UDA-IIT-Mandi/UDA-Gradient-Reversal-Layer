@@ -219,6 +219,8 @@ pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
 
 ## Usage
 
+**Update the dataset file paths in the notebooks before execution**
+
 ### Computer Vision Domain Adaptation
 ```bash
 # Baseline without GRL (SVHN→MNIST)
