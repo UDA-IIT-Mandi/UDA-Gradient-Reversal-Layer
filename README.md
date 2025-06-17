@@ -71,13 +71,13 @@ This work serves as foundational research for our summer internship project at *
   - 10 acoustic scene classes
   - Confusion matrix analysis and device-specific performance evaluation
 
-- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Source-Only Baseline implementation without GRL and Domain Shift for DCASE dataset
+- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Baseline implementation without GRL and Domain Shift for DCASE dataset
   - Source and Target (fully labelled without domain shift) training for comparison with DANN
   - Same PaSST backbone as DANN implementation
   - No Domain Shift (Device A,B,C,S1-S3 → Device A,B,C,S1-S6)
   - Performance baseline for comparing domain adaptation against models with no domain shift
  
-- **[`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)**: Baseline implementation without GRL for DCASE dataset
+- **[`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)**: Source-Only Baseline implementation without GRL for DCASE dataset
   - Source-only training for comparison with DANN
   - Same PaSST backbone as DANN implementation
   - Multi-device domain adaptation (Device A → Devices B,C,S1-S6)
