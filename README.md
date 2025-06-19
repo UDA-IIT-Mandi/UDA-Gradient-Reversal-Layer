@@ -2,18 +2,14 @@
 
 This repository contains implementations of unsupervised domain adaptation techniques using Gradient Reversal Layer (GRL) and PaSST feature extractors across various datasets. The code was modified from various GitHub sources as a learning exercise and precursor to our main research project. 
 
-## Project Overview
-
-This work serves as foundational research for our summer internship project at **IIT Mandi**: *Domain Adaptation for Acoustic Scene Classification for different devices using Cyclic Self Training*.
-
 ## Repository Structure
 
 ```
 ├── notebooks/
-│   ├── grl_cv/                        # GRL implementations for computer vision
+│   ├── grl_cv/                       # GRL implementations for computer vision
 │   │   ├── baseline_no_grl.ipynb     # Baseline without GRL: SVHN→MNIST
 │   │   └── dann_with_grl.ipynb       # DANN with GRL: SVHN→MNIST
-│   ├── grl_dcase/                     # GRL implementations for DCASE dataset
+│   ├── grl_dcase/                    # GRL implementations for DCASE dataset
 │   │   ├── dann_dcase.ipynb          # DANN with GRL for DCASE TAU 2020
 │   │   ├── baseline_dcase_wo_da.ipynb # Baseline without domain shift for DCASE TAU 2020
 │   │   └── source_only_dcase_w_da.ipynb # Baseline without GRL but with domain shift for DCASE TAU 2020
@@ -21,7 +17,7 @@ This work serves as foundational research for our summer internship project at *
 │       ├── passt_pretrained_practise.ipynb # PaSST practice notebook
 │       └── passt_dcase.ipynb         # PaSST with DCASE dataset
 ├── datasets/
-│   ├── audio_files/                   # Sample audio files for PaSST practice
+│   ├── audio_files/                  # Sample audio files for PaSST practice
 │   │   ├── 222993__zyrytsounds__people-talking.wav
 │   │   ├── 33711__acclivity__excessiveexposure.wav
 │   │   └── 36105__erh__roswell.wav
@@ -272,7 +268,7 @@ jupyter notebook notebooks/passt/passt_dcase.ipynb
 
 ## Future Work
 
-This repository serves as groundwork for our main research project: **Domain Adaptation for Acoustic Scene Classification for different devices using Cyclic Self Training** at IIT Mandi.
+This repository serves as groundwork for our main research project: **Domain Adaptation for Acoustic Scene Classification for different devices using Cycle Self Training** at IIT Mandi.
 
 The techniques and implementations explored here will inform:
 - Advanced domain adaptation strategies
