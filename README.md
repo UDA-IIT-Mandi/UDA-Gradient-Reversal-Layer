@@ -6,8 +6,6 @@ This repository contains implementations of unsupervised domain adaptation techn
 
 This work serves as foundational research for our summer internship project at **IIT Mandi**: *Domain Adaptation for Acoustic Scene Classification for different devices using Cyclic Self Training*.
 
-**Status**: Practice work completed. Repository is finalized with no further updates planned.
-
 ## Repository Structure
 
 ```
@@ -160,28 +158,23 @@ The following results demonstrate the effectiveness of domain adaptation techniq
 ### Computer Vision Domain Adaptation (SVHN→MNIST)
 
 **Baseline without GRL** ([`baseline_no_grl.ipynb`](notebooks/grl_cv/baseline_no_grl.ipynb)):
-- Source Accuracy: 93.4%
-- Target Accuracy: 63.1%
+- Accuracy: 63.1%
 
 **DANN with GRL** ([`dann_with_grl.ipynb`](notebooks/grl_cv/dann_with_grl.ipynb)):
-- Source Accuracy: 93.6%
-- Target Accuracy: 72.1%
+- Accuracy: 72.1%
 
 The GRL implementation shows a **9% improvement** in target domain accuracy while maintaining source domain performance, demonstrating the effectiveness of domain-adversarial training.
 
 ### Audio Domain Adaptation (DCASE TAU 2020)
 
 **DANN with GRL** ([`dann_dcase.ipynb`](notebooks/grl_dcase/dann_dcase.ipynb)):
-- Source Accuracy: 88.7%
-- Target Accuracy: 65.5%
+- Accuracy: 65.5%
 
 **Baseline without Domain Shift** ([`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)):
-- Source Accuracy: 99.0%
-- Target Accuracy: 67.0%
+- Accuracy: 67.0%
 
 **Source-only with Domain Shift** ([`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)):
-- Source Accuracy: 99.0%
-- Target Accuracy: 52.0%
+- Accuracy: 52.0%
 
 The DANN implementation shows a **14% improvement** over source-only training in the presence of domain shift and is performing on par with the model without domain shift, highlighting the critical importance of domain adaptation for cross-device acoustic scene classification.
 
@@ -293,15 +286,6 @@ This project is for educational and research purposes. Please refer to the origi
 - [PaSST License](https://github.com/kkoutini/PaSST/blob/main/LICENSE)
 - DCASE TAU dataset: Academic use only, commercial use prohibited
 
-## Final Notes
-
-- **Completion Status**: All practice implementations are complete and finalized
-- **Repository Maintenance**: No further updates planned for this practice repository
-- **Dataset Structure**: Organized for easy domain adaptation experiments
-- **Code Quality**: All notebooks include proper documentation and usage examples
-- **Learning Outcome**: Successfully explored UDA techniques for acoustic scene classification
-- **Next Steps**: Proceed to main research project implementation
-
 ---
 
-**Repository Status**: **COMPLETED**
+**Repository Status**: Work completed. Repository is finalized with no further updates planned.
