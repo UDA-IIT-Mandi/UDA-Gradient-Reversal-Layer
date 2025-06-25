@@ -31,15 +31,21 @@ __pycache__/
 # =====================
 
 # Ignore large DCASE audio files
-datasets/dcase/test/*.wav
-datasets/dcase/train/*.wav
+grl_dcase/dcase/test/source/*.wav
+grl_dcase/dcase/test/target/*.wav
+grl_dcase/dcase/train/*.wav
+grl_dcase/dcase/train/source/*.wav
+grl_dcase/dcase/train/target/*.wav
 
 # Ignore the entire CV dataset
-datasets/cv_data/MNIST
-datasets/cv_data/*.mat
+grl_cv/cv_data/MNIST
+grl_cv/cv_data/*.mat
+
+# Ignore model files
+grl_dcase/saved_models/*
 
 # Do NOT ignore audio_files
-!datasets/audio_files/
+!passt/audio_files/
 
 # =====================
 # OS-generated files
