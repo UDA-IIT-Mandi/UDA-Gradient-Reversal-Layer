@@ -1,1 +1,0 @@
-# Folder for saving Train Source Split (Device b,c,s1,s2,s3)(datasets\dcase\evaluation_setup\fold1_train.csv) of audio files from DCASE dataset
