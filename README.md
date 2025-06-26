@@ -129,18 +129,19 @@ This split allows comprehensive evaluation of domain adaptation across varying d
 
 | Method | Source Accuracy | Target Accuracy | Improvement |
 |--------|----------------|-----------------|-------------|
-| Baseline w/o GRL | 93.4% | 63.1% | - |
+| Baseline w/o GRL | 93.4% | 63.1% | -T |
 | DANN w/ GRL | 93.7% | 72.1% | **+9.0%** |
 
 ### Audio Domain Adaptation (DCASE TAU 2020)
 
-| Method | Overall Accuracy | Performance Notes |
-|--------|-----------------|-------------------|
-| Baseline w/o Domain Shift | 67.0% | Upper bound (no domain gap) |
-| **DANN w/ GRL** | **65.5%** | **Our main result** |
-| Source-only w/ Domain Shift | 52.0% | Lower bound (with domain gap) |
+| Method                     | Source Accuracy | Target Accuracy      | Overall Accuracy | Performance Notes               |
+|----------------------------|---------------  |----------------------|------------------|---------------------------------|
+| Baseline w/o Domain Shift  |     77.27%      |      71.08%          |     74.17%       | Upper bound (no domain gap)     |
+| **DANN w/ GRL**            |     76.67%      |      64.06%          |   **70.37%**     | **Our main result**             |
+| Source-only w/ Domain Shift|     81.21%      |      51.86%          |     47.61%       | Lower bound (with domain gap)   |
 
-**Key Achievement**: Our DANN implementation with PaSST features achieves 65.5% accuracy, representing a **13.5% improvement** over source-only training and performing within 1.5% of the no-domain-shift upper bound.
+
+**Key Achievement**: Our DANN implementation with PaSST features achieves 70.37%% accuracy, representing a **22.76% improvement** over source-only training and performing within 3.8% of the no-domain-shift upper bound.
 
 ## Technical Implementation
 
