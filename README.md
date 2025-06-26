@@ -1,287 +1,242 @@
-# Unsupervised Domain Adaptation Learning
+# UDA Gradient Reversal Layer
 
-This repository contains implementations of unsupervised domain adaptation techniques using Gradient Reversal Layer (GRL) and PaSST feature extractors across various datasets. The code was modified from various GitHub sources as a learning exercise and precursor to our main research project. 
+This repository contains the first internship project completed during the research internship at IIT Mandi implementing unsupervised domain adaptation techniques using Gradient Reversal Layer (GRL) and PaSST feature extractors. We started by re-implementing and validating existing GRL approaches on computer vision datasets, then extended our work to audio domain adaptation using PaSST feature extractors on the DCASE dataset - representing our novel contribution to cross-device acoustic scene classification.
 
 ## Repository Structure
 
 ```
-├── notebooks/
-│   ├── grl_cv/                       # GRL implementations for computer vision
-│   │   ├── baseline_no_grl.ipynb     # Baseline without GRL: SVHN→MNIST
-│   │   └── dann_with_grl.ipynb       # DANN with GRL: SVHN→MNIST
-│   ├── grl_dcase/                    # GRL implementations for DCASE dataset
-│   │   ├── dann_dcase.ipynb          # DANN with GRL for DCASE TAU 2020
-│   │   ├── baseline_dcase_wo_da.ipynb # Baseline without domain shift for DCASE TAU 2020
-│   │   └── source_only_dcase_w_da.ipynb # Baseline without GRL but with domain shift for DCASE TAU 2020
-│   └── passt/                         # PaSST feature extractor implementations
-│       ├── passt_pretrained_practise.ipynb # PaSST practice notebook
-│       └── passt_dcase.ipynb         # PaSST with DCASE dataset
-├── datasets/
-│   ├── audio_files/                  # Sample audio files for PaSST practice
-│   │   ├── 222993__zyrytsounds__people-talking.wav
-│   │   ├── 33711__acclivity__excessiveexposure.wav
-│   │   └── 36105__erh__roswell.wav
-│   ├── cv_data/                       # Computer vision datasets (auto-downloaded)
-│   └── dcase/                         # DCASE TAU dataset
-│       ├── meta.csv                   # Dataset metadata
-│       ├── README.md                  # DCASE dataset documentation
-│       ├── README.html                # DCASE dataset documentation (HTML)
-│       ├── evaluation_setup/          # Cross-validation setup for data splits
-│       │   ├── fold1_train.csv        # Training file list (used for train/source & train/target splits)
-│       │   ├── fold1_test.csv         # Testing file list (used for test split)
-│       │   └── fold1_evaluate.csv     # Evaluation file list with ground truth labels
-│       ├── test/                      # Test data organization
-│       └── train/                     # Training data organization
-│           ├── source/                # Source domain data (Device A)
-│           └── target/                # Target domain data (Devices B,C,S1-S3)
-├── .ipynb_checkpoints/                # Jupyter checkpoint files
+├── grl_cv/                           # GRL implementations for computer vision (validation work)
+│   ├── baseline_wo_grl_svhn.ipynb    # Baseline without GRL: SVHN→MNIST
+│   ├── dann_svhn_w_grl.ipynb         # DANN with GRL: SVHN→MNIST
+│   └── cv_data/                      # Computer vision datasets (auto-downloaded)
+│       ├── test_32x32.mat           # SVHN test data
+│       ├── train_32x32.mat          # SVHN train data
+│       └── MNIST/                    # MNIST dataset
+├── grl_dcase/                        # GRL implementations for DCASE dataset (our main work)
+│   ├── dann_dcase_w_grl.ipynb        # DANN with GRL for DCASE TAU 2020
+│   ├── baseline_dcase_wo_ds.ipynb    # Baseline without domain shift for DCASE TAU 2020
+│   ├── source_only_dcase_w_ds.ipynb  # Source-only baseline with domain shift for DCASE TAU 2020
+│   ├── dcase/                        # DCASE TAU dataset
+│   │   ├── meta.csv                  # Dataset metadata
+│   │   ├── README.md                 # DCASE dataset documentation
+│   │   ├── README.html               # DCASE dataset documentation (HTML)
+│   │   └── evaluation_setup/         # Cross-validation setup for data splits
+│   └── saved_models/                 # Trained model checkpoints
+├── passt/                            # PaSST feature extractor implementations
+│   ├── passt_dcase.ipynb             # PaSST with DCASE dataset
+│   ├── passt_pretrained_practise.ipynb # PaSST practice notebook
+│   └── audio_files/                  # Sample audio files for PaSST practice
+├── .ipynb_checkpoints/               # Jupyter checkpoint files
 ├── .gitattributes
 ├── .gitignore
-├── README.md                          # This file
-└── structure.txt                      # Repository structure documentation
+└── README.md                         # This file
 ```
+
+## Project Overview
+
+### Phase 1: Validation and Understanding (Computer Vision)
+We began by re-implementing existing Domain-Adversarial Neural Network (DANN) approaches from GitHub repositories to:
+- Validate the correctness of existing implementations
+- Understand the theoretical foundations of GRL-based domain adaptation
+- Establish baseline performance metrics on standard CV datasets
+
+### Phase 2: Audio Application (Audio Domain Adaptation)
+Building on our understanding, we developed implementations for acoustic scene classification:
+- Integrated PaSST (pre-trained audio transformers) as feature extractors
+- Adapted GRL techniques for cross-device audio domain adaptation
+- Implemented comprehensive evaluation on DCASE TAU 2020 dataset
+- Source/target split for both training and testing data
 
 ## Implemented Techniques
 
-### 1. Gradient Reversal Layer (GRL/DANN)
+### 1. Computer Vision Domain Adaptation (Validation Work)
 
-#### Computer Vision Domain Adaptation
-- **[`baseline_no_grl.ipynb`](notebooks/grl_cv/baseline_no_grl.ipynb)**: Baseline implementation without GRL for SVHN→MNIST domain adaptation
+#### SVHN → MNIST Domain Adaptation
+- **[`baseline_wo_grl_svhn.ipynb`](grl_cv/baseline_wo_grl_svhn.ipynb)**: Baseline implementation without GRL
   - Source domain: SVHN (Street View House Numbers)
   - Target domain: MNIST (Handwritten digits)
-  - Feature extractor + classifier architecture
-  - Performance comparison baseline for GRL methods
+  - CNN feature extractor + classifier architecture
+  - **Maximum Target Accuracy**: 63.1%
 
-- **[`dann_with_grl.ipynb`](notebooks/grl_cv/dann_with_grl.ipynb)**: Full DANN implementation with GRL for SVHN→MNIST domain adaptation
+- **[`dann_svhn_w_grl.ipynb`](grl_cv/dann_svhn_w_grl.ipynb)**: DANN implementation with GRL
   - Domain-adversarial training with gradient reversal layer
   - CNN feature extractor + classifier + discriminator architecture
-  - Comparison with baseline to demonstrate GRL effectiveness
+  - **Maximum Target Accuracy**: 72.1%
+  - **Improvement**: +9% over baseline, demonstrating GRL effectiveness
 
-#### Audio Domain Adaptation (DCASE TAU 2020)
-- **[`dann_dcase.ipynb`](notebooks/grl_dcase/dann_dcase.ipynb)**: Full DANN implementation with GRL for acoustic scene classification
-  - Domain-adversarial training with gradient reversal layer
-  - PaSST feature extractor (pre-trained on AudioSet)
+### 2. Audio Domain Adaptation (Main Contribution)
+
+#### Cross-Device Acoustic Scene Classification
+- **[`dann_dcase_w_grl.ipynb`](grl_dcase/dann_dcase_w_grl.ipynb)**: DANN with GRL for acoustic scenes
+  - **Novel Integration**: PaSST feature extractor with GRL framework
   - Multi-device domain adaptation (Device A → Devices B,C,S1-S6)
-  - 10 acoustic scene classes
-  - Confusion matrix analysis and device-specific performance evaluation
+  - 10 acoustic scene classes from DCASE TAU 2020
 
-- **[`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)**: Baseline implementation without GRL and Domain Shift for DCASE dataset
-  - Source and Target (fully labelled without domain shift) training for comparison with DANN
-  - Same PaSST backbone as DANN implementation
-  - No Domain Shift (Device A,B,C,S1-S3 → Device A,B,C,S1-S6)
-  - Performance baseline for comparing domain adaptation against models with no domain shift
- 
-- **[`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)**: Source-Only Baseline implementation without GRL for DCASE dataset
-  - Source-only training for comparison with DANN
-  - Same PaSST backbone as DANN implementation
-  - Multi-device domain adaptation (Device A → Devices B,C,S1-S6)
-  - Performance baseline for measuring domain adaptation improvements over models with domain shift but no GRL
 
-### 2. PaSST Feature Extractor
-- **[`passt_pretrained_practise.ipynb`](notebooks/passt/passt_pretrained_practise.ipynb)**: Practice implementation of pre-trained PaSST model
-  - Audio feature extraction for acoustic scene classification
-  - Integration with domain adaptation frameworks
-  - Sample audio file processing examples
+- **[`baseline_dcase_wo_ds.ipynb`](grl_dcase/baseline_dcase_wo_ds.ipynb)**: Baseline without domain shift
+  - No domain adaptation (all devices used for training)
+  - Same PaSST backbone for fair comparison
+  - Upper bound performance reference
 
-- **[`passt_dcase.ipynb`](notebooks/passt/passt_dcase.ipynb)**: PaSST feature extraction specifically for DCASE dataset
-  - DCASE TAU 2020 dataset preprocessing and feature extraction
-  - PaSST model integration with acoustic scene classification
-  - Preparation for domain adaptation experiments
+- **[`source_only_dcase_w_ds.ipynb`](grl_dcase/source_only_dcase_w_ds.ipynb)**: Source-only with domain shift
+  - Training only on source domain (Device A)
+  - Evaluation on target domains (Devices B,C,S1-S6)
+  - Lower bound performance reference
 
-## Datasets Used
+### 3. PaSST Feature Extraction Framework
+- **[`passt_pretrained_practise.ipynb`](passt/passt_pretrained_practise.ipynb)**: PaSST model exploration
+  - Pre-trained AudioSet model integration
+  - Audio preprocessing and feature extraction pipelines
+  - Foundation for DCASE implementations
 
-### Computer Vision
-- **MNIST**: Handwritten digit recognition (downloaded automatically)
-- **SVHN**: Street View House Numbers (downloaded automatically)
+- **[`passt_dcase.ipynb`](passt/passt_dcase.ipynb)**: PaSST-DCASE integration
+  - DCASE-specific preprocessing
+  - Feature extraction optimization for domain adaptation
+  - Performance analysis across devices
 
-### Audio/Acoustic
-- **DCASE TAU 2020 Mobile**: Urban acoustic scenes from multiple cities and devices
-  - 10 acoustic scene classes: airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram
-  - Multiple devices: A (source), B, C, S1-S6 (targets)
-  - 64 hours of audio data total
-  - Detailed statistics in [`datasets/dcase/README.md`](datasets/dcase/README.md)
-- **Custom Audio Files**: Sample .wav files for PaSST feature extraction practice
+## Data Split Strategy
 
-## Dataset Setup
+Evaluation protocol for the DCASE dataset:
 
-### Automatic Downloads
-The MNIST and SVHN datasets are automatically downloaded to [`datasets/cv_data/`](datasets/cv_data/) when running the respective notebooks.
+### Training Split
+- **Source Domain**: Device A recordings (primary recording device)
+- **Target Domain**: Devices B,C,S1-S3 recordings (secondary devices)
 
-### Manual Downloads Required
-Due to file size limitations, the DCASE dataset needs to be downloaded separately:
+### Testing Split  
+- **Source Test**: Device A test recordings
+- **Target Test**: Devices B,C,S1-S6 test recordings (including additional unseen devices S4-S6)
 
-1. **DCASE TAU 2020 Mobile Dataset**: 
-   - Download from [DCASE Challenge website](http://dcase.community/challenge2020/task-acoustic-scene-classification)
-   - Audio files should be placed in `datasets/dcase/audio/` (not included in repository)
-   - Pre-organized train/test split folders available in [`datasets/dcase/train/`](datasets/dcase/train/) and [`datasets/dcase/test/`](datasets/dcase/test/)
+This split allows comprehensive evaluation of domain adaptation across varying device characteristics and recording conditions.
 
-2. **Audio Files for PaSST Practice**:
-   - Sample files already included in [`datasets/audio_files/`](datasets/audio_files/)
-   - Any additional .wav files can be added for experimentation
+## Datasets
 
-## DCASE Dataset Organization
+### Computer Vision (Validation)
+- **MNIST**: Handwritten digits (60k train, 10k test)
+- **SVHN**: Street View House Numbers (73k train, 26k test)
+- **Auto-download**: Handled by torchvision datasets
 
-The DCASE TAU Urban Acoustic Scenes 2020 Mobile dataset uses a specific cross-validation setup provided in the [`datasets/dcase/evaluation_setup/`](datasets/dcase/evaluation_setup/) folder:
+### Audio (Main Work)
+- **DCASE TAU 2020 Mobile**: Urban acoustic scenes
+  - **Source**: Device A (10,215 training files)
+  - **Target**: Devices B,C,S1-S6 (3,747 with varying counts per device)
+  - **Classes**: 10 acoustic scenes (airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram)
+  - **Total**: 64 hours of audio data
+  - **Format**: 10-second segments, 32kHz, mono
 
-### Data Split Files
-- **[`fold1_train.csv`](datasets/dcase/evaluation_setup/fold1_train.csv)**: Contains the training file list with scene labels
-  - Used to split audio files into source domain (Device A) and target domain (Devices B,C,S1-S3)
-  - Format: `[audio file][tab][scene label]`
-  - Device A files → [`datasets/dcase/train/source/`](datasets/dcase/train/source/)
-  - Device B,C,S1-S3 files → [`datasets/dcase/train/target/`](datasets/dcase/train/target/)
-
-- **[`fold1_test.csv`](datasets/dcase/evaluation_setup/fold1_test.csv)**: Contains the testing file list
-  - Used for evaluation across all devices (A,B,C,S1-S6)
-  - Format: `[audio file]`
-  - All test files → [`datasets/dcase/test/`](datasets/dcase/test/)
-
-- **[`fold1_evaluate.csv`](datasets/dcase/evaluation_setup/fold1_evaluate.csv)**: Same as test list but with ground truth labels
-  - Used for final evaluation and performance metrics
-  - Format: `[audio file][tab][scene label]`
-
-### Domain Adaptation Setup
-- **Source Domain**: Device A recordings (10,215 files)
-- **Target Domain**: Devices B,C,S1-S3 recordings (3,747 files) 
-- **Test Set**: All devices A,B,C,S1-S6 recordings (2,968 files)
-- **Scene Classes**: 10 acoustic scenes (airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram)
-
-The data split ensures that segments recorded at the same location are kept in the same subset to prevent data leakage between training and testing.
-
-## Results
-
-The following results demonstrate the effectiveness of domain adaptation techniques across different domains and datasets:
+## Results and Performance
 
 ### Computer Vision Domain Adaptation (SVHN→MNIST)
 
-**Baseline without GRL** ([`baseline_no_grl.ipynb`](notebooks/grl_cv/baseline_no_grl.ipynb)):
-- Accuracy: 63.1%
-
-**DANN with GRL** ([`dann_with_grl.ipynb`](notebooks/grl_cv/dann_with_grl.ipynb)):
-- Accuracy: 72.1%
-
-The GRL implementation shows a **9% improvement** in target domain accuracy while maintaining source domain performance, demonstrating the effectiveness of domain-adversarial training.
+| Method | Source Accuracy | Target Accuracy | Improvement |
+|--------|----------------|-----------------|-------------|
+| Baseline w/o GRL | 93.4% | 63.1% | - |
+| DANN w/ GRL | 93.7% | 72.1% | **+9.0%** |
 
 ### Audio Domain Adaptation (DCASE TAU 2020)
 
-**DANN with GRL** ([`dann_dcase.ipynb`](notebooks/grl_dcase/dann_dcase.ipynb)):
-- Accuracy: 65.5%
+| Method | Overall Accuracy | Performance Notes |
+|--------|-----------------|-------------------|
+| Baseline w/o Domain Shift | 67.0% | Upper bound (no domain gap) |
+| **DANN w/ GRL** | **65.5%** | **Our main result** |
+| Source-only w/ Domain Shift | 52.0% | Lower bound (with domain gap) |
 
-**Baseline without Domain Shift** ([`baseline_dcase_wo_da.ipynb`](notebooks/grl_dcase/baseline_dcase_wo_da.ipynb)):
-- Accuracy: 67.0%
+**Key Achievement**: Our DANN implementation with PaSST features achieves 65.5% accuracy, representing a **13.5% improvement** over source-only training and performing within 1.5% of the no-domain-shift upper bound.
 
-**Source-only with Domain Shift** ([`source_only_dcase_w_da.ipynb`](notebooks/grl_dcase/source_only_dcase_w_da.ipynb)):
-- Accuracy: 52.0%
+## Technical Implementation
 
-The DANN implementation shows a **14% improvement** over source-only training in the presence of domain shift and is performing on par with the model without domain shift, highlighting the critical importance of domain adaptation for cross-device acoustic scene classification.
+### Contributions
+1. **PaSST-GRL Integration**: Implementation combining pre-trained audio transformers with gradient reversal layers
+2. **DCASE Evaluation**: Source/target split strategy for comprehensive cross-device evaluation in both train and test
+3. **Audio Domain Adaptation Pipeline**: End-to-end framework for acoustic scene classification with domain adaptation
 
-### Key Findings
+### Architecture Details
+- **Feature Extractor**: PaSST (pre-trained on AudioSet, 768-dim features)
+- **Adaptation Layers**: 768→512→256 with batch normalization and dropout
+- **Classifier**: 256→10 classes for acoustic scenes
+- **Discriminator**: 256→2 for domain classification
+- **GRL**: Gradient reversal with adaptive λ scheduling
 
-1. **Domain Adaptation Effectiveness**: GRL-based methods consistently improve target domain performance across both visual and audio domains
-2. **Cross-Device Challenges**: The significant performance drop from 99.0% to 52.0% accuracy when domain shift is present emphasizes the need for specialized adaptation techniques
-3. **Method Generalization**: DANN with GRL proves effective across different modalities (computer vision and audio processing)
+## Setup and Usage
 
-**Detailed Analysis**: For comprehensive performance metrics, confusion matrices, training curves, and device-specific results, please refer to the individual notebook implementations listed above.
-
-## Technical Requirements
-
-- Python 3.12+
-- PyTorch
-- torchvision
-- librosa
-- hear21passt
-- numpy
-- matplotlib
-- scikit-learn
-
-## Installation
-
+### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/RonnMath03/Unsupervised-Domain-Adaptation-Learning
-cd Unsupervised-Domain-Adaptation-Learning
+git clone https://github.com/UDA-IIT-Mandi/UDA-Gradient-Reversal-Layer.git
+cd UDA-Gradient-Reversal-Layer
 
 # Install required packages
-pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn
-
-# Dataset directories already exist, download DCASE data if needed
+pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn pandas
 ```
 
-## Usage
+### Running Experiments
 
-**Update the dataset file paths in the notebooks before execution**
-
-### Computer Vision Domain Adaptation
+#### Computer Vision (Validation)
 ```bash
-# Baseline without GRL (SVHN→MNIST)
-jupyter notebook notebooks/grl_cv/baseline_no_grl.ipynb
+# Baseline without GRL
+jupyter notebook grl_cv/baseline_wo_grl_svhn.ipynb
 
-# DANN with GRL (SVHN→MNIST)
-jupyter notebook notebooks/grl_cv/dann_with_grl.ipynb
+# DANN with GRL
+jupyter notebook grl_cv/dann_svhn_w_grl.ipynb
 ```
 
-### Audio Domain Adaptation (DCASE)
+#### Audio Domain Adaptation (Main Work)
 ```bash
-# DANN with GRL implementation
-jupyter notebook notebooks/grl_dcase/dann_dcase.ipynb
+# DANN implementation with PaSST
+jupyter notebook grl_dcase/dann_dcase_w_grl.ipynb
 
-# Baseline implementation without GRL and Domain Shift
-jupyter notebook notebooks/grl_dcase/baseline_dcase_wo_da.ipynb
-
-# Source-Only Baseline without GRL
-jupyter notebook notebooks/grl_dcase/source_only_dcase_w_da.ipynb
+# Baseline comparisons
+jupyter notebook grl_dcase/baseline_dcase_wo_ds.ipynb
+jupyter notebook grl_dcase/source_only_dcase_w_ds.ipynb
 ```
 
-### PaSST Feature Extraction
+#### PaSST Exploration
 ```bash
-# Practice with sample audio files
-jupyter notebook notebooks/passt/passt_pretrained_practise.ipynb
-
-# PaSST with DCASE dataset
-jupyter notebook notebooks/passt/passt_dcase.ipynb
+# PaSST practice and exploration
+jupyter notebook passt/passt_pretrained_practise.ipynb
+jupyter notebook passt/passt_dcase.ipynb
 ```
 
-## References
+### Dataset Preparation
+- **CV Datasets**: Automatically downloaded via torchvision
+- **DCASE Dataset**: Download from [DCASE Challenge](http://dcase.community/challenge2020/task-acoustic-scene-classification)
+  - Place audio files in `grl_dcase/dcase/audio/`
+  - Metadata and evaluation setup already included
 
-### Research Papers
-- Ganin, Y., & Lempitsky, V. (2015). [Unsupervised Domain Adaptation by Backpropagation](https://arxiv.org/abs/1409.7495). *arXiv preprint arXiv:1409.7495*.
-- Koutini, K., et al. (2021). PaSST: Efficient Training of Audio Transformers with Patchout.
+## Code Attribution and Acknowledgments
 
-### Source Repositories
-- **DANN PyTorch Implementation**: [Yangyangii/DANN-pytorch](https://github.com/Yangyangii/DANN-pytorch)
-  - Used as base for GRL/DANN implementations
-- **PaSST Implementation**: [kkoutini/PaSST](https://github.com/kkoutini/PaSST)
-  - Used for audio feature extraction
+### Original Implementations (Validation Work)
+- **DANN PyTorch**: Based on [Yangyangii/DANN-pytorch](https://github.com/Yangyangii/DANN-pytorch)
+  - Original GRL and DANN implementations for computer vision
+  - We re-implemented and validated their approach on SVHN→MNIST
+- **PaSST**: Based on [kkoutini/PaSST](https://github.com/kkoutini/PaSST)
+  - Pre-trained audio transformer models
+  - We integrated PaSST as feature extractors in our domain adaptation framework
 
-### Datasets
-- **DCASE TAU 2020 Mobile**: [Detection and Classification of Acoustic Scenes and Events](http://dcase.community/challenge2020/task-acoustic-scene-classification)
-- **Audio Samples**: [FreeSound Community](https://freesound.org/)
+### Research Foundation
+- Ganin, Y., & Lempitsky, V. (2015). [Unsupervised Domain Adaptation by Backpropagation](https://arxiv.org/abs/1409.7495)
+- Koutini, K., et al. (2021). [Efficient Training of Audio Transformers with Patchout](https://arxiv.org/abs/2110.05069)
 
-## Acknowledgments
+### Dataset Acknowledgments
+- **DCASE TAU 2020**: Detection and Classification of
+Acoustic Scenes and Events, Tampere University, Audio Research Group
+- **FreeSound**: Community-contributed audio samples
 
-- **Code Attribution**: Implementations adapted and modified from open-source GitHub repositories
-- **Research Foundation**: Based on Domain-Adversarial Training and PaSST architectures
-- **Institution**: Summer internship preparation work at IIT Mandi
-- **Dataset Providers**: 
-  - DCASE community for acoustic scene datasets
-  - Tampere University for TAU Urban Acoustic Scenes dataset
-  - FreeSound community for sample audio files
+## Future Directions
 
-## Future Work
+This project establishes the foundation for advanced domain adaptation research in acoustic scene classification:
 
-This repository serves as groundwork for our main research project: **Domain Adaptation for Acoustic Scene Classification for different devices using Cycle Self Training** at IIT Mandi.
-
-The techniques and implementations explored here will inform:
-- Advanced domain adaptation strategies
-- Multi-device acoustic scene classification
-- Gradual domain shift mitigation techniques
+1. **Cycle Self-Training**: Extending DANN with cycle-self-training
+2. **Progressive Domain Adaptation**: Gradual adaptation across multiple device types
+3. **Multi-Source Domain Adaptation**: Leveraging multiple source domains
+4. **Attention-Based Adaptation**: Incorporating attention mechanisms in domain adaptation
 
 ## License
 
-This project is for educational and research purposes. Please refer to the original source repositories for their respective licensing information:
+This project is for academic and research purposes. Please refer to original repositories for licensing:
 - [DANN-pytorch License](https://github.com/Yangyangii/DANN-pytorch/blob/master/LICENSE)
 - [PaSST License](https://github.com/kkoutini/PaSST/blob/main/LICENSE)
-- DCASE TAU dataset: Academic use only, commercial use prohibited
+- DCASE TAU dataset: Academic use, commercial use prohibited
 
 ---
 
-**Repository Status**: Work completed. Repository is finalized with no further updates planned.
+**Project Status**: Completed
