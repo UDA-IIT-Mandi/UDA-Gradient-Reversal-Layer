@@ -42,7 +42,9 @@ grl_cv/cv_data/MNIST
 grl_cv/cv_data/*.mat
 
 # Ignore model files
-grl_dcase/saved_models/*
+grl_dcase/saved_models/baseline_wo_ds/*pth
+grl_dcase/saved_models/dann_w_grl/*pt
+grl_dcase/saved_models/source_only/*pth
 
 # Do NOT ignore audio_files
 !passt/audio_files/
