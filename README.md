@@ -20,12 +20,19 @@ This repository contains the first internship project completed during the resea
 │   │   ├── meta.csv                  # Dataset metadata
 │   │   ├── README.md                 # DCASE dataset documentation
 │   │   ├── README.html               # DCASE dataset documentation (HTML)
-│   │   └── evaluation_setup/         # Cross-validation setup for data splits
+│   │   ├── evaluation_setup/         # Cross-validation setup for data splits
+│   │   ├── train/                    # Training data split by domain
+│   │   │   ├── source/               # Device A training files
+│   │   │   └── target/               # Devices B,C,S1-S3 training files
+│   │   └── test/                     # Testing data split by domain
+│   │       ├── source/               # Device A test files
+│   │       └── target/               # Devices B,C,S1-S6 test files
 │   └── saved_models/                 # Trained model checkpoints
 ├── passt/                            # PaSST feature extractor implementations
 │   ├── passt_dcase.ipynb             # PaSST with DCASE dataset
 │   ├── passt_pretrained_practise.ipynb # PaSST practice notebook
 │   └── audio_files/                  # Sample audio files for PaSST practice
+├── dcase_processor.py                # DCASE dataset extraction and preprocessing script
 ├── .ipynb_checkpoints/               # Jupyter checkpoint files
 ├── .gitattributes
 ├── .gitignore
@@ -121,7 +128,7 @@ This split allows comprehensive evaluation of domain adaptation across varying d
   - **Target**: Devices B,C,S1-S6 (3,747 with varying counts per device)
   - **Classes**: 10 acoustic scenes (airport, bus, metro, metro_station, park, public_square, shopping_mall, street_pedestrian, street_traffic, tram)
   - **Total**: 64 hours of audio data
-  - **Format**: 10-second segments, 32kHz, mono
+  - **Format**: 10-second segments, 44.1kHz, mono
 
 ## Results and Performance
 
@@ -169,6 +176,79 @@ cd UDA-Gradient-Reversal-Layer
 pip install torch torchvision librosa hear21passt numpy matplotlib scikit-learn pandas
 ```
 
+### Dataset Preparation
+
+#### Computer Vision Datasets
+Computer vision datasets (MNIST and SVHN) are automatically downloaded via torchvision when running the notebooks.
+
+#### DCASE Dataset Setup
+
+1. **Download the Dataset**
+   - Download the DCASE TAU Urban Acoustic Scenes 2020 Mobile development dataset from [DCASE Challenge](http://dcase.community/challenge2020/task-acoustic-scene-classification)
+   - You'll receive a zip file: `TAU-urban-acoustic-scenes-2020-mobile-development.zip`
+
+2. **Process the Dataset**
+   
+   We provide an automated script [`dcase_processor.py`](dcase_processor.py) that extracts and organizes the dataset:
+
+   **Basic Usage:**
+   ```bash
+   # Extract to default 'dcase' directory
+   python dcase_processor.py path/to/TAU-urban-acoustic-scenes-2020-mobile-development.zip
+   ```
+
+   **Advanced Usage:**
+   ```bash
+   # Custom output directory with statistics
+   python dcase_processor.py path/to/dataset.zip --output_dir grl_dcase/dcase --stats
+   
+   # Keep temporary files for debugging
+   python dcase_processor.py path/to/dataset.zip --no_cleanup --stats
+   ```
+
+   **Command Options:**
+   - `--output_dir`: Specify custom output directory (default: `dcase`)
+   - `--stats`: Display dataset statistics after processing
+   - `--no_cleanup`: Keep temporary extraction files
+   - `--help`: Show all available options
+
+3. **Dataset Structure After Processing**
+   
+   The processor automatically creates the following structure:
+   ```
+   grl_dcase/dcase/
+   ├── meta.csv                  # Dataset metadata
+   ├── README.md                 # DCASE dataset documentation
+   ├── README.html               # DCASE dataset documentation (HTML)
+   ├── LICENSE                   # Dataset license
+   ├── evaluation_setup/         # Cross-validation setup
+   │   ├── fold1_train.csv       # Training file list
+   │   ├── fold1_test.csv        # Testing file list
+   │   └── fold1_evaluate.csv    # Evaluation file list
+   ├── train/                    # Training data (domain-split)
+   │   ├── source/               # Device A training files (~10,215 files)
+   │   └── target/               # Devices B,C,S1-S3 training files (~3,747 files)
+   └── test/                     # Testing data (domain-split)
+       ├── source/               # Device A test files (~330 files)
+       └── target/               # Devices B,C,S1-S6 test files (~2,638 files)
+   ```
+
+4. **Dataset Statistics**
+   
+   After processing with `--stats`, you'll see:
+   ```
+   ==================================================
+   DATASET STATISTICS
+   ==================================================
+   Split      Source     Target     Total     
+   --------------------------------------------------
+   Train      10215      3747       13962     
+   Test       330        2638       2968      
+   --------------------------------------------------
+   Total      10545      6385       16930     
+   ==================================================
+   ```
+
 ### Running Experiments
 
 #### Computer Vision (Validation)
@@ -197,11 +277,20 @@ jupyter notebook passt/passt_pretrained_practise.ipynb
 jupyter notebook passt/passt_dcase.ipynb
 ```
 
-### Dataset Preparation
-- **CV Datasets**: Automatically downloaded via torchvision
-- **DCASE Dataset**: Download from [DCASE Challenge](http://dcase.community/challenge2020/task-acoustic-scene-classification)
-  - Place audio files in `grl_dcase/dcase/audio/`
-  - Metadata and evaluation setup already included
+#### Important Notes on Dataset Processing
+
+- **Device Mapping**: The processor automatically maps devices to domains:
+  - **Source Domain**: Device A (primary recording device)
+  - **Target Training**: Devices B, C, S1, S2, S3
+  - **Target Testing**: Devices B, C, S1, S2, S3, S4, S5, S6
+
+- **File Naming Convention**: DCASE files follow the pattern:
+  ```
+  [scene_label]-[city]-[location_id]-[segment_id]-[device_id].wav
+  Example: airport-barcelona-0-0-a.wav
+  ```
+
+- **Cross-Validation**: The processor uses the official DCASE evaluation setup (`fold1_*.csv`) to ensure proper train/test splits based on recording locations, preventing data leakage.
 
 ## Code Attribution and Acknowledgments
 
@@ -218,8 +307,7 @@ jupyter notebook passt/passt_dcase.ipynb
 - Koutini, K., et al. (2021). [Efficient Training of Audio Transformers with Patchout](https://arxiv.org/abs/2110.05069)
 
 ### Dataset Acknowledgments
-- **DCASE TAU 2020**: Detection and Classification of
-Acoustic Scenes and Events, Tampere University, Audio Research Group
+- **DCASE TAU 2020**: Detection and Classification of Acoustic Scenes and Events, Tampere University, Audio Research Group
 - **FreeSound**: Community-contributed audio samples
 
 ## Future Directions
