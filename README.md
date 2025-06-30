@@ -54,6 +54,15 @@ Building on our understanding, we developed implementations for acoustic scene c
 - Implemented comprehensive evaluation on DCASE TAU 2020 dataset
 - Source/target split for both training and testing data
 
+## Mentor and Guide
+
+We would like to acknowledge our mentor and guide who provided invaluable guidance and supervision throughout this research project:
+
+- **Dr. Padmanabhan Rajan** - Associate Professor, The School of Computing and Electrical Engineering, IIT Mandi
+- **Abhishek Dileep** - Research Scholar, IIT Mandi
+
+Their expertise in machine learning, domain adaptation, and audio signal processing was instrumental in the successful completion of this work.
+
 ## Implemented Techniques
 
 ### 1. Computer Vision Domain Adaptation (Validation Work)
