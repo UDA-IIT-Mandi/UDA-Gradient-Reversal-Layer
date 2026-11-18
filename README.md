@@ -78,7 +78,7 @@ Their expertise in machine learning, domain adaptation, and audio signal process
   - Domain-adversarial training with gradient reversal layer
   - CNN feature extractor + classifier + discriminator architecture
   - **Maximum Target Accuracy**: 72.1%
-  - **Improvement**: +9% over baseline, demonstrating GRL effectiveness
+  - **Improvement**: +9.0 points over baseline, demonstrating GRL effectiveness
 
 ### 2. Audio Domain Adaptation (Main Contribution)
 
@@ -145,19 +145,18 @@ This split allows comprehensive evaluation of domain adaptation across varying d
 
 | Method | Source Accuracy | Target Accuracy | Improvement |
 |--------|----------------|-----------------|-------------|
-| Baseline w/o GRL | 93.4% | 63.1% | -T |
-| DANN w/ GRL | 93.7% | 72.1% | **+9.0%** |
+| Baseline w/o GRL | 93.4% | 63.1% | — |
+| DANN w/ GRL | 93.7% | 72.1% | **+9.0 points** |
 
 ### Audio Domain Adaptation (DCASE TAU 2020)
 
-| Method                     | Source Accuracy | Target Accuracy      | Overall Accuracy | Performance Notes               |
-|----------------------------|---------------  |----------------------|------------------|---------------------------------|
-| Baseline w/o Domain Shift  |     77.27%      |      71.08%          |     74.17%       | Upper bound (no domain gap)     |
-| **DANN w/ GRL**            |     76.67%      |      64.06%          |   **70.37%**     | **Our main result**             |
-| Source-only w/ Domain Shift|     81.21%      |      51.86%          |     47.61%       | Lower bound (with domain gap)   |
+| Method                      | Source Accuracy | Target Accuracy | Performance Notes             |
+|-----------------------------|-----------------|-----------------|-------------------------------|
+| Baseline w/o Domain Shift   |     77.27%      |     71.08%      | Upper bound (no domain gap)   |
+| **DANN w/ GRL**             |     76.67%      |   **64.06%**    | **Our main result**           |
+| Source-only w/ Domain Shift |     81.21%      |     51.86%      | Lower bound (with domain gap) |
 
-
-**Key Achievement**: Our DANN implementation with PaSST features achieves 70.37%% accuracy, representing a **22.76% improvement** over source-only training and performing within 3.8% of the no-domain-shift upper bound.
+**Key Achievement**: On unseen target devices, DANN with PaSST features raises accuracy from **51.86% to 64.06% (+12.2 points)** over source-only training, closing about 63% of the gap to the no-domain-shift upper bound (71.08%).
 
 ## Technical Implementation
 
